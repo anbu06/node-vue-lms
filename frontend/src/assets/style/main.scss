@@ -1,0 +1,43 @@
+@import '~ant-design-vue/dist/antd.css';
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+
+body {
+  font-family: 'Poppins', sans-serif;
+}
+
+.ant-layout-sider {
+  background-color: #fcfcfc;
+
+  .ant-menu {
+    margin-top: 3em;
+  }
+
+  .ant-menu-inline {
+    border: none;
+    padding: 0 1em;
+  }
+
+  .ant-menu-item {
+    font-size: 1rem;
+    height: 3rem;
+    line-height: 3rem;
+    text-align: left;
+    border-radius: 0.5em;
+
+    a:hover {
+      color: #5e3ec5;
+    }
+  }
+
+  .ant-menu-item.ant-menu-item-selected {
+    background-color: #5e3ec5;
+
+    a {
+      color: #fefefe;
+    }
+
+    &::after {
+      border: none;
+    }
+  }
+}

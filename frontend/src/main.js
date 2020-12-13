@@ -4,14 +4,20 @@ import router from "./router";
 import store from "./store";
 
 import Antd from "ant-design-vue";
-import "ant-design-vue/dist/antd.css";
+import "./assets/style/main.scss";
 
 Vue.config.productionTip = false;
 
 Vue.use(Antd);
 
-new Vue({
-  router,
-  store,
-  render: h => h(App)
-}).$mount("#app");
+async function main() {
+  let storeInstance = await store()
+
+  new Vue({
+    router: router(storeInstance),
+    store: storeInstance,
+    render: h => h(App)
+  }).$mount("#app");
+}
+
+main()
