@@ -1,0 +1,51 @@
+version: '3'
+services:
+  mongodb:
+    image: mongo
+    ports:
+      - 37017:27017
+
+  node-vue-lms-backend:
+    image: node-vue-lms-backend
+    build:
+      context: backend
+      dockerfile: dev.Dockerfile
+    environment:
+      - VIRTUAL_HOST=lms-starter.localhost/api,lms-starter.localhost/api/*,lms-starter.localhost/socket.io/*
+      - VIRTUAL_HOST_WEIGHT=1
+    expose:
+      - 3000
+    volumes:
+      - ./backend/src:/app/src
+
+  node-vue-lms-frontend:
+    image: node-vue-lms-frontend
+    build:
+      context: frontend
+      dockerfile: dev.Dockerfile
+    environment:
+      - HOST=0.0.0.0
+      - VIRTUAL_HOST=lms-starter.localhost
+      - VIRTUAL_HOST_WEIGHT=0
+      - PORT=8080
+    volumes:
+      - ./frontend/src:/app/src
+      - ./frontend/public:/app/public
+    expose:
+      - 8080
+
+  load-balancer:
+    image: dockercloud/haproxy:1.6.7
+    links:
+      - node-vue-lms-backend
+      - node-vue-lms-frontend
+    networks:
+      default:
+        aliases:
+          - lms-starter.localhost
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    ports:
+      - 80:80
+      - 443:443
+    restart: on-failure
