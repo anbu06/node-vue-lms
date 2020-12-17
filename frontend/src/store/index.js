@@ -3,6 +3,7 @@ import Vuex from "vuex";
 import axios from "axios";
 
 import account from "./account";
+import course from "./course";
 
 Vue.use(Vuex);
 
@@ -11,12 +12,13 @@ axios.defaults.withCredentials = true;
 
 const store = new Vuex.Store({
   modules: {
-    account
+    account,
+    course
   }
 });
 
 export default async function init() {
-  await store.dispatch('account/init')
+  await store.dispatch("account/init");
 
-  return store
+  return store;
 }
