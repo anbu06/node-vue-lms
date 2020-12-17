@@ -6,11 +6,13 @@ const session = require('express-session')
 const MongoStore = require('connect-mongo')(session)
 const passport = require('passport')
 const cors = require('cors')
+const path = require('path')
 
 const User = require('./models/user')
 const { mongoose } = require('./bootstrap')
 
 const accountRouter = require('./routes/account')
+const courseRouter = require('./routes/course')
 
 var app = express()
 app.use(
@@ -42,12 +44,15 @@ passport.use(User.createStrategy())
 passport.serializeUser(User.serializeUser())
 passport.deserializeUser(User.deserializeUser())
 
+
 app.use(logger('dev'))
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
 app.use(cookieParser())
 
+app.use('/api/uploads/course', express.static(path.join(__dirname, 'uploads', 'course')))
 app.use('/api/account', accountRouter)
+app.use('/api/course', courseRouter)
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
