@@ -1,7 +1,8 @@
 <template lang="pug">
-  div
-    h1 auth layout
-    router-view
+  div.container
+    .columns
+      .column.is-4.is-offset-4
+        router-view
 </template>
 
 <script>
@@ -10,4 +11,8 @@ export default {
 }
 </script>
 
-<style></style>
+<style lang="scss" scoped>
+.columns {
+  margin-top: 20vh;
+}
+</style>
