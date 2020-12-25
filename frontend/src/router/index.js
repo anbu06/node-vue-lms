@@ -23,19 +23,31 @@ export default function init(store) {
         path: '/register',
         name: 'register',
         meta: { layout: 'auth' },
-        component: Register
+        component: Register,
+        beforeEnter(to, from, next) {
+          if (store.state.account.user) return next('/dashboard')
+          return next()
+        }
       },
       {
         path: '/login',
         name: 'login',
         meta: { layout: 'auth' },
-        component: Login
+        component: Login,
+        beforeEnter(to, from, next) {
+          if (store.state.account.user) return next('/dashboard')
+          return next()
+        }
       },
       {
         path: '/dashboard',
         name: 'dashboard',
         meta: { layout: 'dashboard' },
-        component: Dashboard
+        component: Dashboard,
+        beforeEnter(to, from, next) {
+          if (!store.state.account.user) return next('/login')
+          return next()
+        }
       }
     ]
   })
