@@ -3,6 +3,7 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import Buefy from 'buefy'
+import Vuelidate from 'vuelidate'
 import 'buefy/dist/buefy.css'
 
 import DefaultLayout from './layouts/DefaultLayout'
@@ -14,6 +15,7 @@ Vue.component('auth-layout', AuthLayout)
 Vue.component('dashboard-layout', DashboardLayout)
 
 Vue.use(Buefy)
+Vue.use(Vuelidate)
 
 Vue.config.productionTip = false
 
