@@ -29,8 +29,10 @@ const account = {
     }
   },
   actions: {
-    async [actions.INIT]({ dispatch }) {
+    async [actions.INIT]({ commit, dispatch }) {
       await dispatch(actions.FETCH_SESSION);
+
+      commit(mutations.SWITCH_USER_PROFILE, localStorage.getItem("userProfile"))
     },
     async [actions.REGISTER_USER](store, user) {
       return axios.post("/account/register", { user });
@@ -53,6 +55,8 @@ const account = {
     [actions.SWITCH_USER_PROFILE]({ state, commit }) {
       const newProfile =
         state.userProfile === "lecturer" ? "student" : "lecturer";
+
+      localStorage.setItem("userProfile", newProfile);
       commit(mutations.SWITCH_USER_PROFILE, newProfile);
     }
   }
