@@ -14,7 +14,7 @@
 
       .buttons.mt-5
         b-button(type="is-primary" @click="submitForm" :disabled="$v.$invalid") Submit
-        span Don't have an account?  <router-link to="/login">Register now</router-link>
+        span Don't have an account?  <router-link to="/register">Register now</router-link>
 
 </template>
 
@@ -47,7 +47,7 @@ export default {
   methods: {
     ...mapActions('account', ['login']),
     async submitForm() {
-      if(!this.$v.$invalid) {
+      if (!this.$v.$invalid) {
         try {
           await this.login(this.form)
           this.$router.push('/dashboard')
