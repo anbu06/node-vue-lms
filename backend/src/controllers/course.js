@@ -45,13 +45,31 @@ exports.createCourse = async (req, res, next) => {
   }
 }
 
-exports.getMyCourses = async (req, res, next) => {
-  let courses
-
+exports.getAllCourses = async (req, res, next) => {
   try {
-    courses = await Course.find({ _id: { $in: req.user.createdCourses } })
+    const courses = await Course.find()
 
     res.status(200).send(courses)
+  } catch (e) {
+    return next(e)
+  }
+}
+
+exports.addChapter = async (req, res, next) => {
+  const chapter = {
+    title: req.body.title,
+    description: req.body.description,
+    createdBy: req.user._id
+  }
+
+  const course = await Course.findById(req.params.courseId)
+
+  course.chapters.push(chapter)
+
+  try {
+    await course.save()
+
+    res.sendStatus(201)
   } catch (e) {
     return next(e)
   }

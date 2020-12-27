@@ -6,6 +6,8 @@ const courseController = require('../controllers/course')
 
 router.post('/', thumbnailStorage, courseController.createCourse)
 
-router.get('/', courseController.getMyCourses)
+router.get('/all', courseController.getAllCourses)
+
+router.post('/:courseId/chapter', courseController.addChapter)
 
 module.exports = router
