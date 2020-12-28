@@ -74,3 +74,26 @@ exports.addChapter = async (req, res, next) => {
     return next(e)
   }
 }
+
+exports.addLesson = async (req, res, next) => {
+  const lesson = {
+    title: req.body.title,
+    content: req.body.content,
+    resources: req.file ? req.file.path.replace('/app/src', '/api') : '',
+    estimatedCompletionTime: req.body.estimatedCompletionTime,
+    createdBy: req.user._id
+  }
+
+  const course = await Course.findById(req.params.courseId)
+  const chapter = course.chapters.find(c => c._id == req.params.chapterId)
+
+  chapter.lessons.push(lesson)
+
+  try {
+    await course.save()
+
+    res.sendStatus(201)
+  } catch (e) {
+    return next(e)
+  }
+}
