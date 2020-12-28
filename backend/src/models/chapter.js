@@ -40,7 +40,7 @@ chapterSchema.virtual('allLessons').get(function () {
 })
 
 chapterSchema.virtual('estimatedCompletionTimeOfChapter').get(function () {
-  return this.lessons
+  return this.lessons.length && this.lessons
           .map(lesson => lesson.estimatedCompletionTime)
           .reduce((a, b) => a + b)
 })
