@@ -4,7 +4,8 @@ const actions = {
   GET_ALL_COURSES: "getAllCourses",
   CREATE_COURSE: "createCourse",
   ADD_CHAPTER: "addChapter",
-  ADD_LESSON: "addLesson"
+  ADD_LESSON: "addLesson",
+  DELETE_LESSON: "deleteLesson"
 };
 
 const course = {
@@ -18,12 +19,13 @@ const course = {
       return axios.post("/course", course);
     },
     async [actions.ADD_CHAPTER](store, data) {
-      console.log(data)
-      axios.post(`course/${data.courseId}/chapter`, data.chapter)
+      axios.post(`/course/${data.courseId}/chapter`, data.chapter)
     },
     async [actions.ADD_LESSON](store, data) {
-      console.log(data)
-      axios.post(`course/${data.courseId}/chapter/${data.chapterId}/lesson`, data.chapter)
+      axios.post(`/course/${data.courseId}/chapter/${data.chapterId}/lesson`, data.chapter)
+    },
+    async [actions.DELETE_LESSON](store, data) {
+      await axios.delete(`/course/${data.courseId}/chapter/${data.chapterId}/lesson/${data.lessonId}`)
     }
   }
 };
