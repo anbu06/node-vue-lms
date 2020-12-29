@@ -13,4 +13,6 @@ router.post('/:courseId/chapter', courseController.addChapter)
 
 router.post('/:courseId/chapter/:chapterId/lesson', lessonResourceStorage, courseController.addLesson)
 
+router.delete('/:courseId/chapter/:chapterId/lesson/:lessonId', courseController.deleteLesson)
+
 module.exports = router

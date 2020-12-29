@@ -1,3 +1,4 @@
+const fs = require('fs')
 const Validator = require('async-validator').default
 
 const Course = require('../models/course')
@@ -93,6 +94,31 @@ exports.addLesson = async (req, res, next) => {
     await course.save()
 
     res.sendStatus(201)
+  } catch (e) {
+    return next(e)
+  }
+}
+
+exports.deleteLesson = async (req, res, next) => {
+
+  const course = await Course.findById(req.params.courseId)
+  const chapter = course.chapters.find(c => c._id == req.params.chapterId)
+  const lesson = chapter.lessons.find(l => l._id == req.params.lessonId)
+
+  if (lesson.resources != '') {
+    try {
+      fs.unlinkSync(lesson.resources.replace('/api', '/app/src'))
+    } catch(err) {
+      console.log(err)
+    }
+  }
+
+  chapter.lessons = chapter.lessons.filter(l => l._id != req.params.lessonId)
+
+  try {
+    await course.save()
+
+    res.sendStatus(200)
   } catch (e) {
     return next(e)
   }
